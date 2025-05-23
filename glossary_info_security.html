@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glossary - นโยบายความมั่นคงสารสนเทศ</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f4f8fb;
+      color: #222;
+      padding: 30px;
+      max-width: 960px;
+      margin: auto;
+    }
+    h1 {
+      color: #005a9c;
+    }
+    section {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    .keyword {
+      font-weight: bold;
+      font-size: 18px;
+      color: #0a558c;
+    }
+    .problem {
+      margin: 5px 0;
+      color: #c0392b;
+    }
+    .solution {
+      margin: 5px 0;
+      color: #27ae60;
+    }
+  </style>
+</head>
+<body>
+  <h1>📚 คำที่ควรรู้เพิ่มเติม (Glossary ความมั่นคงสารสนเทศ)</h1>
+  <div id="glossary">กำลังโหลดข้อมูลจาก Google Sheet...</div>
+
+  <script>
+    const SHEET_URL = "https://script.google.com/macros/s/AKfycbwlwbpy0p6Zc_R9t3jnaZnsmlLjE1V49qlviWm6Aqgh9Lz1T7OOdrm9GG0WfejQ75KWTw/exec"; // ← ใส่ URL ของ Web App คุณ
+
+    fetch(SHEET_URL)
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("glossary");
+        container.innerHTML = "";
+        data.forEach(item => {
+          const section = document.createElement("section");
+          section.innerHTML = `
+            <div class="keyword">${item.keyword}</div>
+            <p>${item.description}</p>
+            <div class="problem">📌 ปัญหา: ${item.problem}</div>
+            <div class="solution">✅ วิธีแก้: ${item.solution}</div>
+          `;
+          container.appendChild(section);
+        });
+      })
+      .catch(err => {
+        document.getElementById("glossary").innerHTML = "❌ ไม่สามารถโหลดข้อมูลจาก Google Sheet ได้";
+        console.error("โหลดข้อมูลล้มเหลว", err);
+      });
+  </script>
+</body>
+</html>
